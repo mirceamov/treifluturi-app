@@ -1,0 +1,23 @@
+<div class="game-wrapper">
+    <button class="back-button" (click)="goBack()">⬅️ Back</button>
+    <div class="frame">
+      <div class="game-screen" *ngIf="!gameStarted">
+        <h2>🎈 Balloon Popping 🎈</h2>
+        <button (click)="startGame()">Start Game</button>
+      </div>
+  
+      <div class="game-screen active" *ngIf="gameStarted">
+        <h3>Score: {{ score }}</h3>
+        <div class="balloon-container">
+          <div 
+            class="balloon" 
+            *ngFor="let balloon of balloons" 
+            [attr.data-id]="balloon.id"
+            [ngStyle]="balloon.style"
+            [class.popped]="balloon.popped"
+            (click)="popBalloon(balloon)">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
