@@ -3,7 +3,7 @@ import { Level } from "./level.interface";
 export const Level2: Level = {
   id: 2,
   name: "Big Balloon Challenge",
-  description: "Only pop the BIG balloons! Small balloons will not count.",
+  description: "Only pop the BIG balloons! Small balloons will decrease your score.",
   minScoreToAdvance: 5,
   balloonSpeedRange: { min: 5, max: 8 },
   gameDuration: 20000,

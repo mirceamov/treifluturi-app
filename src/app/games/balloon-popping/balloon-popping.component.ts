@@ -29,6 +29,11 @@ export class BalloonPoppingComponent implements OnInit {
     ngOnInit() {
         this.loadLevel();
     }
+    
+    ngOnDestroy() {
+        this.levelService.resetGame();
+    }
+
     loadLevel() {
         this.currentLevel = this.levelService.getCurrentLevel();
     }

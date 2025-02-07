@@ -1,19 +1,21 @@
 import { Injectable } from "@angular/core";
 import { Level } from "./levels/level.interface";
-import { Level1 } from "./levels/level1";
-import { Level2 } from "./levels/level2";
-import { Level3 } from "./levels/level3";
+import { Level1, Level2, Level3, Level4 } from "./levels";
 
 @Injectable({
   providedIn: "root",
 })
 export class LevelService {
-  private levels: Level[] = [Level1, Level2, Level3]; // TODO Adauga nivel AICI
+  private levels: Level[] = [Level1, Level2, Level3, Level4]; // TODO Adauga nivel AICI
   private currentLevelIndex = 0;
   private score = 0;
 
   getCurrentLevel(): Level {
     return this.levels[this.currentLevelIndex];
+  }
+
+  resetGame() {
+    this.currentLevelIndex = 0;
   }
 
   nextLevel(): boolean {
