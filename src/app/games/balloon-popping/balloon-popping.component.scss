@@ -1,125 +1,198 @@
 .game-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to bottom, #a8e6cf, #dcedc1);
+
+  .frame {
+    width: 80%;
+    max-width: 900px;
+    height: 80vh;
+    border: 5px solid #6ab04c;
+    border-radius: 20px;
+    background: url("/assets/flowers-bg.webp"), #ffffff;
+    background-size: cover;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background: linear-gradient(to bottom, #a8e6cf, #dcedc1);
-  
-    .frame {
-      width: 80%;
-      max-width: 900px;
-      height: 80vh;
-      border: 5px solid #6ab04c;
-      border-radius: 20px;
-      background: url("/assets/flowers-bg.webp"), #ffffff;
-      background-size: cover;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
 
-      button {
-        padding: 15px 25px;
-        font-size: 1.5rem;
-        border-radius: 8px;
-        background: linear-gradient(to bottom, #ff3366, #ff6699);
-        color: white;
-        border: none;
-        cursor: pointer;
-        transition: transform 0.2s;
-    
-        &:hover {
-          transform: scale(1.1);
-        }
+    button {
+      padding: 15px 25px;
+      font-size: 1.5rem;
+      border-radius: 8px;
+      background: linear-gradient(to bottom, #ff3366, #ff6699);
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: scale(1.1);
       }
     }
+
+    .back-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
   }
-  
-  .balloon-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-  
-  .balloon {
-    width: 60px;
-    height: 80px;
-    background: red;
-    border-radius: 50%;
-    position: absolute;
-    bottom: 0;
-    transition: transform 0.3s;
-  }
-  
-  .back-button {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    background: white;
-    border: none;
-    padding: 10px 15px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  .game-screen {
+}
+
+.score {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Stretch across the entire row */
+  background: rgba(200, 200, 200, 0.8); /* Light gray translucent background */
+  padding: 10px 0;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  z-index: 10;
+  margin: 0;
+  border-radius: 15px 15px 0 0;
+}
+
+.balloon-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin-top: 48px;
+}
+
+.game-screen {
+  width: 90%;
+  max-width: 600px;
+  padding: 20px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  transition: all 0.5s ease-in-out;
+}
+
+.game-screen.active {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Ensure the score has space */
+  align-items: center;
+  height: 100%;
+  padding: 0;
+}
+
+.result-screen {
+    background: #f0f0f0;
+    border: 3px solid #6ab04c;
+    position: absolute; /* Keeps it from shifting */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 90%;
     max-width: 600px;
     padding: 20px;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    position: relative;
-    z-index: 2;
-    transition: all 0.3s ease-in-out;
   }
-  
-  .game-screen.active {
-    box-shadow: none;
-    padding: 0;
-    width: 100%;
-    height: 100%; /* Ensures it fills the game area */
+
+.level-description {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.balloon {
+  width: 60px;
+  height: 80px;
+  background: radial-gradient(
+    circle at 30% 20%,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 0, 0, 1)
+  ); /* Glossy effect */
+  border-radius: 50%;
+  position: absolute;
+  bottom: 0;
+  transition: transform 0.3s;
+  box-shadow: inset -3px -3px 10px rgba(0, 0, 0, 0.3),
+    0px 5px 10px rgba(0, 0, 0, 0.2); /* Adds depth */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.big {
+  width: 80px;
+  height: 100px;
+}
+
+.small {
+  width: 40px;
+  height: 50px;
+}
+
+/* Balloon String */
+.balloon::after {
+  content: "";
+  width: 2px;
+  height: 20px; /* Length of the string */
+  background: #666; /* Dark gray for realism */
+  position: absolute;
+  bottom: -20px; /* Attaches below the balloon */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.balloon-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centers the badge */
+    background: #ff3333;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
-  .game-screen h3 {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 1.5rem;
-    color: #333;
-    font-weight: bold;
+.popped {
+  animation: pop 0.3s ease-out;
+  position: absolute;
+}
+.shaking {
+  animation: shake 0.2s ease-in-out;
+}
+@keyframes shake {
+  0% {
+    transform: translateX(0);
   }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
 
-  .balloon {
-    width: 60px;
-    height: 80px;
-    background: red;
-    border-radius: 50%;
-    position: absolute;
-    bottom: 0;
-    transition: transform 0.3s;
 
-    
-  }
-  @keyframes pop {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.3); opacity: 0.7; }
-    100% { transform: scale(0); opacity: 0; }
-  }
-  .popped {
-        animation: pop 0.3s ease-out;
-        position: absolute;
-      }
-  
   
   
