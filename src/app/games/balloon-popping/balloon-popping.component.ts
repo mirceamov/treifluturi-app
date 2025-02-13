@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LevelService } from "./services/level.service";
+import { Difficulty, LevelService } from "./services/level.service";
 import { Level } from "./services/levels/level.interface";
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-balloon-popping',
@@ -12,50 +13,88 @@ export class BalloonPoppingComponent implements OnInit {
     currentLevel!: Level;
 
     gameStarted = false;
-    score = 0;
     balloons: any[] = [];
     gameInterval: any;
-
 
     gameEnded = false;
     gameResultMessage = "";
     canAdvance = false;
 
-    constructor(private router: Router, private levelService: LevelService) { }
+    constructor(
+        public levelService: LevelService,
+        private router: Router,
+        private sanitizer: DomSanitizer) { }
 
+    getSafeDescription(): SafeHtml {
+        return this.sanitizer.bypassSecurityTrustHtml(this.levelService.getCurrentLevel().description);
+    }
+    
     goBack() {
         this.router.navigate(['/games']);
     }
     ngOnInit() {
         this.loadLevel();
     }
-    
+
     ngOnDestroy() {
         this.levelService.resetGame();
     }
 
     loadLevel() {
         this.currentLevel = this.levelService.getCurrentLevel();
+ 
+        this.gameStarted = false;
+        this.gameEnded = false;
+        this.levelService.resetScore();
+        this.balloons = [];
+    
+        if (this.currentLevel.startLevel) {
+            this.currentLevel.startLevel(this); // Initialize level-specific settings
+        }
+    
     }
 
+    changeDifficulty(event: any) {
+        const selectedDifficulty = event.target.value as Difficulty;
+        this.levelService.setDifficulty(selectedDifficulty);
+    }
 
     startGame() {
+        const gameDuration = this.levelService.getGameDuration(this.currentLevel); // Set duration based on difficulty
+
         this.gameStarted = true;
-        this.score = 0;
+        this.levelService.resetScore();
         this.balloons = [];
 
         this.spawnBalloons();
 
         setTimeout(() => {
             this.endGame();
-        }, this.currentLevel.gameDuration);
+        }, gameDuration);
     }
 
     spawnBalloons() {
-        this.gameInterval = setInterval(() => {
-            const newBalloon = this.currentLevel.generateBalloon(); // Use level-specific logic
-            this.balloons.push(newBalloon);
-        }, 1500);
+        this.balloons = []; // Clear previous balloons
+    
+        const spawnType = this.currentLevel.spawnType ?? "gradual"; // Default to "gradual"
+
+        if (this.currentLevel.spawnType === "instant") {
+            // Use totalItemsCount if available; otherwise, estimate based on game duration
+            const totalBalloons = this.currentLevel.totalItemsCount ??
+                Math.floor((this.currentLevel.gameDuration / 1000) * 3);
+    
+            for (let i = 0; i < totalBalloons; i++) {
+                const newBalloon = this.currentLevel.generateBalloon(this);
+                this.balloons.push(newBalloon);
+            }
+        } else {
+            // Gradual spawn: Balloons appear over time
+            const spawnRate = this.levelService.getSpawnRate();
+            this.gameInterval = setInterval(() => {
+                const newBalloon = this.currentLevel.generateBalloon(this);
+                this.balloons.push(newBalloon);
+            }, spawnRate);
+        }
     }
 
     endGame() {
@@ -63,11 +102,11 @@ export class BalloonPoppingComponent implements OnInit {
         this.gameStarted = false;
         this.gameEnded = true; // Activăm ecranul final
 
-        if (this.score >= this.currentLevel.minScoreToAdvance) {
-            this.gameResultMessage = `🎉 You won! Your score: ${this.score}`;
+        if (this.levelService.getScore() >= this.currentLevel.minScoreToAdvance) {
+            this.gameResultMessage = `🎉 You won! Your score: ${this.levelService.getScore()}`;
             this.canAdvance = true;
         } else {
-            this.gameResultMessage = `😢 Game Over! Your score: ${this.score}`;
+            this.gameResultMessage = `😢 Game Over! Your score: ${this.levelService.getScore()}`;
             this.canAdvance = false;
         }
     }
@@ -85,25 +124,25 @@ export class BalloonPoppingComponent implements OnInit {
     }
     popBalloon(balloon: any) {
         if (balloon.popped) return;
-    
+
         const balloonIndex = this.balloons.findIndex(b => b.id === balloon.id);
         if (balloonIndex === -1) return;
-    
+
         const shouldPop = this.currentLevel.shouldPopBalloon(balloon);
-    
+
         if (shouldPop) {
-            this.score += this.currentLevel.getScoreForBalloon(balloon, this);
-    
+            this.levelService.increaseScore(this.currentLevel.getScoreForBalloon(balloon, this));
+
             // Play pop sound
             const popSound = new Audio("assets/sounds/pop.mp3");
             popSound.play();
-    
+
             // Get current position
             const balloonElement = document.querySelector(`.balloon[data-id='${balloon.id}']`) as HTMLElement;
             if (balloonElement) {
                 const computedStyle = window.getComputedStyle(balloonElement);
                 const currentBottom = computedStyle.getPropertyValue("bottom");
-    
+
                 this.balloons[balloonIndex] = {
                     ...this.balloons[balloonIndex],
                     style: {
@@ -113,7 +152,7 @@ export class BalloonPoppingComponent implements OnInit {
                     },
                     popped: true,
                 };
-    
+
                 setTimeout(() => {
                     this.balloons = this.balloons.filter(b => b.id !== balloon.id);
                 }, 300);
@@ -122,101 +161,20 @@ export class BalloonPoppingComponent implements OnInit {
             const balloonElement = document.querySelector(`.balloon[data-id='${balloon.id}']`) as HTMLElement;
             if (balloonElement) {
                 balloonElement.style.animationPlayState = "paused"; // Pause floatUp
-balloonElement.classList.add("shaking"); // Apply shake effect
+                balloonElement.classList.add("shaking"); // Apply shake effect
 
-setTimeout(() => {
-    balloonElement.classList.remove("shaking"); // Remove shake effect
-    balloonElement.style.animationPlayState = "running"; // Resume floatUp
-}, 200);
-  
-                
+                setTimeout(() => {
+                    balloonElement.classList.remove("shaking"); // Remove shake effect
+                    balloonElement.style.animationPlayState = "running"; // Resume floatUp
+                }, 200);
+
+
             }
         }
     }
-    /*
-        spawnBalloonsWithInterval() {
-            const { min, max } = this.currentLevel.balloonSpeedRange;
-            this.gameInterval = setInterval(() => {
-                const randomX = Math.random() * 85;
-                const randomSpeed = Math.random() * (max - min) + min;
-                const randomHue = Math.floor(Math.random() * 360); // Random color
-                const balloonId = Math.random();
-                let bottomPosition = -5;
-                const frameRate = 16.67; // 60fps update time
-                const totalFrames = (randomSpeed * 1000) / frameRate; // Total frames for this balloon
-                const movePerFrame = 100 / totalFrames; // How much the balloon moves per frame
-    
-                const newBalloon = {
-                    id: balloonId,
-                    style: {
-                        left: `${randomX}%`,
-                        bottom: `-5%`, // Start at the bottom
-                    },
-                    hueRotation: randomHue,
-                    intervalId: null as any,
-                };
-    
-                this.balloons.push(newBalloon);
-    
-                // Animate the balloon moving up
-                const interval = setInterval(() => {
-                    const balloon = this.balloons.find(b => b.id === balloonId);
-                    if (!balloon) {
-                        clearInterval(interval); // Safety check to prevent memory leaks
-                        return;
-                    }
-    
-                    bottomPosition += movePerFrame; // Moves up smoothly
-                    balloon.style.bottom = `${bottomPosition}%`;
-    
-                    // Remove balloon when it reaches the top
-                    if (bottomPosition >= 100) {
-                        this.removeBalloon(balloonId, interval);
-                    }
-                }, frameRate);
-    
-                newBalloon.intervalId = interval; // Store interval reference
-            }, 1500);
-            
-        }
-    
-        removeBalloon(balloonId: number, intervalId: any) {
-            clearInterval(intervalId); // Stop movement interval
-            this.balloons = this.balloons.filter(b => b.id !== balloonId);
-        }
-    
-    
-    
-        popBalloon(balloon: any) {
-            if (balloon.popped) return; // Prevent multiple clicks
-    
-            this.score++;
-    
-            const popSound = new Audio('assets/sounds/pop.mp3');
-            popSound.play();
-    
-            const balloonIndex = this.balloons.findIndex(b => b.id === balloon.id);
-            if (balloonIndex !== -1) {
-                this.balloons[balloonIndex] = {
-                    ...this.balloons[balloonIndex],
-                    popped: true, // Prevents further clicks
-                };
-    
-                setTimeout(() => {
-                    this.removeBalloon(balloon.id, balloon.intervalId);
-                    //this.balloons = this.balloons.filter(b => b.id !== balloon.id);
-                }, 200);
-            }
-        }
-    */
 
-
-
-
-
-    getRandomColor() {
-        const colors = ['#FF6F61', '#6A0572', '#FFC107', '#4CAF50', '#29B6F6', '#FF4081'];
-        return colors[Math.floor(Math.random() * colors.length)];
+    onDifficultyChange(difficulty: Difficulty) {
+        this.levelService.setDifficulty(difficulty);
     }
 }
 

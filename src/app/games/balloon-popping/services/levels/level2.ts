@@ -5,7 +5,6 @@ export const Level2: Level = {
   name: "Big Balloon Challenge",
   description: "Only pop the BIG balloons! Small balloons will decrease your score.",
   minScoreToAdvance: 5,
-  balloonSpeedRange: { min: 5, max: 8 },
   gameDuration: 20000,
 
   generateBalloon: () => {
@@ -32,9 +31,8 @@ export const Level2: Level = {
     const colors = ["red", "blue", "green", "yellow", "purple"];
     return colors[Math.floor(Math.random() * colors.length)];
   },
-  getScoreForBalloon: (balloon, game) => balloon.size === "big" ? 1 : (game.score > 0 ? -1 : 0),
+  getScoreForBalloon: (balloon, game) => balloon.size === "big" ? 1 : (game.levelService.getScore() > 0 ? -1 : 0),
 
-  isBalloonValid: () => true,
   shouldPopBalloon: (balloon) => true,
   getBalloonBadge: () => null,
 

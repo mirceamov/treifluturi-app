@@ -1,5 +1,6 @@
 .game-wrapper {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -18,7 +19,7 @@
     justify-content: center;
     align-items: center;
 
-    button {
+    .button {
       padding: 15px 25px;
       font-size: 1.5rem;
       border-radius: 8px;
@@ -31,12 +32,6 @@
       &:hover {
         transform: scale(1.1);
       }
-    }
-
-    .back-btn {
-      position: absolute;
-      top: 10px;
-      left: 10px;
     }
   }
 }
@@ -126,6 +121,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  cursor: crosshair;
 }
 
 .big {
@@ -159,8 +155,8 @@
     color: white;
     font-size: 14px;
     font-weight: bold;
-    width: 20px;
-    height: 20px;
+    width: 50px;
+    height: 30px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -191,6 +187,27 @@
   100% {
     transform: translateX(0);
   }
+}
+
+.back-btn {
+  position: absolute;
+  top: 0px; /* Moves it slightly above the frame */
+  left: 0px;
+  background: #6ab04c; /* Green to match frame */
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 0 20px;
+  border: 3px solid #5a9e42; /* Slight darker green border */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.back-btn:hover {
+  background: #5a9e42; /* Slightly darker green on hover */
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 

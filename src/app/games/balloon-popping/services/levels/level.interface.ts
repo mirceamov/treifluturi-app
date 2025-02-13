@@ -6,12 +6,13 @@ export interface Level {
     allowedColors?: string[]; // Dacă avem nivele cu culori specifice
     allowFakeBalloons?: boolean;
     requireEvenNumbers?: boolean;
-    balloonSpeedRange: { min: number; max: number }; // Interval de viteză
     gameDuration : number;
-
-    generateBalloon: () => any; // Function to generate a balloon
+    spawnType?: "gradual" | "instant"; // OPTIONAL, defaults to "gradual"
+    totalItemsCount?: number; // Number of items for instant spawn (optional)
+    
+    startLevel?: (game: any) => void;
+    generateBalloon: (game: any) => any; // Now takes game instance
     getRandomColor: () => any; // Function to generate a balloon
-    isBalloonValid: (balloon: any) => boolean; // Function to validate if the balloon can be popped
     getScoreForBalloon: (balloon: any, game: any) => number;
     shouldPopBalloon: (balloon: any) => boolean;  
     getBalloonBadge?: (balloon: any) => string | null; 

@@ -5,7 +5,6 @@ export const Level3: Level = {
     name: "Tough Balloons",
     description: "Big balloons pop on 3 click, small ones need 1 clicks!",
     minScoreToAdvance: 10,
-    balloonSpeedRange: { min: 5, max: 8 },
     gameDuration: 30000,
 
     generateBalloon: () => {
@@ -32,8 +31,6 @@ export const Level3: Level = {
             Math.floor(Math.random() * 5)
         ];
     },
-
-    isBalloonValid: () => true,
 
     getScoreForBalloon: () => 1,
 

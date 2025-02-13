@@ -5,7 +5,6 @@ export const Level4: Level = {
     name: "Even Number Pop",
     description: "Only pop even-numbered balloons! Odd numbers will decrease your score.",
     minScoreToAdvance: 5,
-    balloonSpeedRange: { min: 5, max: 8 },
     gameDuration: 60000,
   
     generateBalloon: () => {
@@ -31,13 +30,11 @@ export const Level4: Level = {
       ];
     },
   
-    isBalloonValid: () => true, // All balloons can be popped
-  
     getScoreForBalloon: (balloon, game) => {
       if (balloon.number % 2 === 0) {
         return 1; // Even number = +1 point
       } else {
-        return game.score > 0 ? -1 : 0; // Odd number = -1, but score can't go below 0
+        return game.levelService.getScore() > 0 ? -1 : 0; // Odd number = -1, but score can't go below 0
       }
     },
   

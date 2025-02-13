@@ -12,6 +12,7 @@ import { BalloonPoppingComponent } from './games/balloon-popping/balloon-popping
 
 import { MatCardModule  } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { DifficultySelectorComponent } from './games/balloon-popping/components/difficulty-selector/difficulty-selector.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { MatIconModule } from '@angular/material/icon';
     HomeComponent,
     GamesComponent,
     AboutComponent,
-    BalloonPoppingComponent,    
+    BalloonPoppingComponent,
+    DifficultySelectorComponent,    
   ],
   imports: [
     BrowserModule,

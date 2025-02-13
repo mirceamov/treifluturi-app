@@ -6,48 +6,56 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @import 'bootstrap/scss/bootstrap';
 
 .sparkle-button {
-    background: linear-gradient(45deg, #ff4081, #ff79b0);
-    color: white;
-    font-size: 1.5rem;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.3s ease-in-out;
-    position: relative;
-    overflow: hidden;
-    text-transform: uppercase;
-    font-weight: bold;
-  
-    &:hover {
-      background: linear-gradient(45deg, #ff79b0, #ff4081);
-      transform: scale(1.05);
-    }
-  
-    &::before {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 10%, transparent 50%);
-      transform: rotate(30deg);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-  
-    &:hover::before {
-      opacity: 1;
-    }
-  
-    i {
-      font-size: 1.8rem;
-    }
+  background: linear-gradient(45deg, #6ab04c, #a8e6cf); /* Green gradient */
+  color: white;
+  font-size: 1.5rem;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  font-weight: bold;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    background: linear-gradient(45deg, #5a9e42, #dcedc1); /* Darker green hover */
+    transform: scale(1.05);
   }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 50%);
+    transform: rotate(30deg);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  i {
+    font-size: 1.8rem;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .game-screen {
+    width: 95%; /* Use more width on small screens */
+    padding: 15px; /* Reduce padding */
+  }
+}
 
 @media screen and (max-width: 768px) {
     .home-container {

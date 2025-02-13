@@ -1,0 +1,14 @@
+<div class="difficulty-selector">
+    <!-- <p>Select Difficulty:</p> -->
+    <div class="difficulty-buttons">
+      <button
+        *ngFor="let difficulty of difficulties"
+        class="difficulty-button"
+        [class.active]="difficulty === selectedDifficulty"
+        (click)="selectDifficulty(difficulty)"
+      >
+        {{ difficulty }}
+      </button>
+    </div>
+  </div>
+  

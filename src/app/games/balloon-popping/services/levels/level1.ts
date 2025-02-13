@@ -5,7 +5,6 @@ export const Level1: Level = {
   name: "Balloon Popping",
   description: "Pop as many balloons as you can!",
   minScoreToAdvance: 5,
-  balloonSpeedRange: { min: 6, max: 10 },
   gameDuration: 20000,
 
   generateBalloon: () => {
@@ -29,7 +28,6 @@ export const Level1: Level = {
     return colors[Math.floor(Math.random() * colors.length)];
   },
 
-  isBalloonValid: () => true,
   getScoreForBalloon: () => 1,
 
   shouldPopBalloon: (balloon) => true,
