@@ -36,7 +36,7 @@ export const Level3: Level = {
 
     shouldPopBalloon: (balloon) => {
         balloon.currentClicks++;
-        if(balloon.currentClicks < balloon.clicksRequired){
+        if (balloon.currentClicks < balloon.clicksRequired) {
             const popSound = new Audio("assets/sounds/shake.mp3");
             popSound.play();
             return false;
@@ -45,7 +45,11 @@ export const Level3: Level = {
         return true;
     },
 
-    getBalloonBadge: (balloon) => {
-        return `${balloon.clicksRequired - balloon.currentClicks}`;
-      }
+    /*
+        getBalloonBadge: (balloon) => {
+            return `${balloon.clicksRequired - balloon.currentClicks}`;
+        }
+    */
+    getBalloonBadge: () => null,
+
 };

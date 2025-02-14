@@ -4,8 +4,8 @@ export const Level1: Level = {
   id: 1,
   name: "Balloon Popping",
   description: "Pop as many balloons as you can!",
-  minScoreToAdvance: 5,
-  gameDuration: 20000,
+  minScoreToAdvance: 10,
+  gameDuration: 30000,
 
   generateBalloon: () => {
     const randomX = Math.random() * 85;
@@ -29,7 +29,6 @@ export const Level1: Level = {
   },
 
   getScoreForBalloon: () => 1,
-
   shouldPopBalloon: (balloon) => true,
   getBalloonBadge: () => null,
 

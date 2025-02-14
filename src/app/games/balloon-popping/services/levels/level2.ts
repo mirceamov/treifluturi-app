@@ -5,7 +5,7 @@ export const Level2: Level = {
   name: "Big Balloon Challenge",
   description: "Only pop the BIG balloons! Small balloons will decrease your score.",
   minScoreToAdvance: 5,
-  gameDuration: 20000,
+  gameDuration: 30000,
 
   generateBalloon: () => {
     const randomX = Math.random() * 85;

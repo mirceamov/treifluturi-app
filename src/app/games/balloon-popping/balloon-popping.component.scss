@@ -121,7 +121,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  cursor: crosshair;
+  cursor:pointer;
 }
 
 .big {
@@ -147,22 +147,18 @@
 }
 
 .balloon-badge {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Centers the badge */
-    background: #ff3333;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-    width: 50px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center inside balloon */
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .popped {
   animation: pop 0.3s ease-out;

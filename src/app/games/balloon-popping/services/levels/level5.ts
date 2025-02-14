@@ -3,25 +3,65 @@ import { LevelWithRedBalloons } from "./level5.interface";
 export const Level5: LevelWithRedBalloons = {
     id: 5,
     name: "Catch the Red Balloons",
-    description: "Only pop red balloons! Any other color decreases your score.",
+    description: "Only pop <span style='color: red; font-size: xx-large;'>red</span> balloons! Any other color decreases your score.",
     minScoreToAdvance: 5,
-    gameDuration: 10000,
+    gameDuration: 30000,
     redBalloonCount: 0,
+    precomputedBalloons: [], // Initialize empty array
 
-    generateBalloon: (game) => {
+    initLevel: (game) => {
         const difficulty = game.levelService.getDifficulty();
-        const minRedBalloons = Level5.getMinRedBalloonCount(difficulty, Level5.minScoreToAdvance);
-
+    
+        // ✅ Ensure gameDuration is set before anything else
+        const gameDuration = game.levelService.getGameDuration(game.currentLevel);
+    
+        const level = game.currentLevel as LevelWithRedBalloons;
+        level.redBalloonCount = 0;
+        level.precomputedBalloons = []; // ✅ Store balloon sequence
+    
         const spawnRate = game.levelService.getSpawnRate();
-        const totalBalloons = Math.floor(game.currentLevel.gameDuration / spawnRate); // Estimate total balloons in game
-        const redBalloonRatio = minRedBalloons / totalBalloons; // Calculate % of reds needed
-
-        const isRed = Math.random() < redBalloonRatio;
-        
-        if (isRed) Level5.redBalloonCount++;
-
-        return Level5.createBalloon(isRed ? "red" : Level5.getRandomColor());
+        const totalBalloons = Math.floor(gameDuration / spawnRate); // ✅ Now this is safe!
+        const minRedBalloons = Level5.getMinRedBalloonCount(difficulty, Level5.minScoreToAdvance);
+    
+        // ✅ Create an array with the right amount of red and other balloons
+        let balloonSequence = Array(totalBalloons).fill(null);
+    
+        // ✅ Set minimum red balloons in random positions
+        let redIndexes = new Set();
+        while (redIndexes.size < minRedBalloons) {
+            redIndexes.add(Math.floor(Math.random() * totalBalloons));
+        }
+    
+        // ✅ Fill the array with "red" where needed, and random colors elsewhere
+        for (let i = 0; i < totalBalloons; i++) {
+            if (redIndexes.has(i)) {
+                balloonSequence[i] = "red";
+                level.redBalloonCount++;
+            } else {
+                balloonSequence[i] = Level5.getRandomColor();
+            }
+        }
+    
+        // ✅ Shuffle the array for randomness
+        for (let i = balloonSequence.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [balloonSequence[i], balloonSequence[j]] = [balloonSequence[j], balloonSequence[i]];
+        }
+    
+        level.precomputedBalloons = balloonSequence; // ✅ Store for later use
     },
+    
+
+    
+    generateBalloon: (game) => {
+        const level = game.currentLevel as LevelWithRedBalloons;
+        // ✅ Get the next precomputed balloon type
+        const nextColor = level.precomputedBalloons.shift() || Level5.getRandomColor();
+
+        return Level5.createBalloon(nextColor);
+    },
+    
+    
 
     getMinRedBalloonCount: (difficulty, minScore) => {
         switch (difficulty) {
@@ -49,8 +89,8 @@ export const Level5: LevelWithRedBalloons = {
     },
 
     getRandomColor: () => {
-        //const colors = ["blue", "green", "yellow", "purple"];
-        const colors = ['#FF6F61', '#6A0572', '#FFC107', '#4CAF50', '#29B6F6', '#FF4081'];
+        const colors = ["blue", "green", "yellow", "purple"];
+        //const colors = ['#FF6F61', '#6A0572', '#FFC107', '#4CAF50', '#29B6F6', '#FF4081'];
         return colors[Math.floor(Math.random() * colors.length)];
     },
 
@@ -58,7 +98,6 @@ export const Level5: LevelWithRedBalloons = {
         if (balloon.color === "red") {
             return 1;
         } else {
-            console.log('not red');
             return game.levelService.getScore() > 0 ? -1 : 0;
         }
     },

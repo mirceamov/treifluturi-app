@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Level } from "./levels/level.interface";
-import { Level1, Level2, Level3, Level4, Level5, Level6 } from "./levels";
+import { Level1, Level2, Level3, Level4, Level5, Level6, Level7 } from "./levels";
 
 export type Difficulty = "Easy" | "Normal" | "Hard";
 
@@ -8,8 +8,8 @@ export type Difficulty = "Easy" | "Normal" | "Hard";
     providedIn: "root",
 })
 export class LevelService {
-    private levels: Level[] = [Level1, Level2, Level3, Level4, Level5, Level6]; // TODO Adauga nivel AICI
-    private currentLevelIndex = 5;
+    private levels: Level[] = [Level1, Level2, Level3, Level4, Level5, Level6, Level7]; // TODO Adauga nivel AICI
+    private currentLevelIndex = 6;
     private score = 0;
     private difficulty: Difficulty = "Easy";
 
@@ -27,7 +27,7 @@ export class LevelService {
 
     getSpawnRate(): number {
         switch (this.difficulty) {
-            case "Easy": return 15;
+            case "Easy": return 1500;
             case "Normal": return 1000;
             case "Hard": return 500;
             default: return 1500; // Default to Easy if not set

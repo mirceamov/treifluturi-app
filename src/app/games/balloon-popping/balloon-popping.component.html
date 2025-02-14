@@ -1,20 +1,19 @@
 <div class="game-wrapper">
-    
+
     <button class="back-btn" (click)="goBack()">
         <i class="bi bi-arrow-left"></i>
     </button>
-    
-    <app-difficulty-selector class="mb-2" *ngIf="!gameStarted " 
-    (difficultyChanged)="onDifficultyChange($event)">
-</app-difficulty-selector>
 
-    <div class="frame">        
+    <app-difficulty-selector class="mb-2" *ngIf="!gameStarted " (difficultyChanged)="onDifficultyChange($event)">
+    </app-difficulty-selector>
+
+    <div class="frame">
         <!-- result screen -->
         <div class="game-screen" *ngIf="!gameStarted && !gameEnded">
             <h2>Level {{ currentLevel.id }} - {{ currentLevel.name }}</h2>
             <p [innerHTML]="getSafeDescription()"></p>
 
-            
+
 
             <br />
             <button class="sparkle-button" (click)="startGame()">▶ Start Game</button>
@@ -28,9 +27,8 @@
                 <div class="balloon" *ngFor="let balloon of balloons" [attr.data-id]="balloon.id"
                     [ngStyle]="balloon.style" [class.popped]="balloon.popped" (click)="popBalloon(balloon)">
 
-                    <span class="balloon-badge" *ngIf="currentLevel?.getBalloonBadge(balloon)">
-                        {{ currentLevel.getBalloonBadge?.(balloon) ?? '' }}
-                    </span>
+                    <span *ngIf="currentLevel?.getBalloonBadge(balloon)" class="balloon-badge"
+                        [innerHTML]="getSafeHtml(currentLevel.getBalloonBadge?.(balloon))"></span>
 
                 </div>
             </div>
@@ -40,7 +38,7 @@
         <div class="game-screen result-screen" *ngIf="gameEnded">
             <h2>{{ gameResultMessage }}</h2>
 
-            <div class="d-flex justify-content-center gap-3 mt-4">                
+            <div class="d-flex justify-content-center gap-3 mt-4">
                 <button class="sparkle-button" (click)="restartGame()">
                     <i class="bi bi-arrow-clockwise"></i> Retry
                 </button>

@@ -14,7 +14,9 @@ export class BalloonPoppingComponent implements OnInit {
 
     gameStarted = false;
     balloons: any[] = [];
+    
     gameInterval: any;
+    gameTimeout: any;
 
     gameEnded = false;
     gameResultMessage = "";
@@ -28,7 +30,13 @@ export class BalloonPoppingComponent implements OnInit {
     getSafeDescription(): SafeHtml {
         return this.sanitizer.bypassSecurityTrustHtml(this.levelService.getCurrentLevel().description);
     }
-    
+
+    getSafeHtml(text: string | null | undefined): SafeHtml {
+        if(!text) return ''
+
+        return this.sanitizer.bypassSecurityTrustHtml(text);
+    }
+
     goBack() {
         this.router.navigate(['/games']);
     }
@@ -42,16 +50,15 @@ export class BalloonPoppingComponent implements OnInit {
 
     loadLevel() {
         this.currentLevel = this.levelService.getCurrentLevel();
- 
+
         this.gameStarted = false;
         this.gameEnded = false;
         this.levelService.resetScore();
         this.balloons = [];
-    
-        if (this.currentLevel.startLevel) {
-            this.currentLevel.startLevel(this); // Initialize level-specific settings
+
+        if (this.currentLevel.initLevel) {
+            this.currentLevel.initLevel(this); // Initialize level-specific settings
         }
-    
     }
 
     changeDifficulty(event: any) {
@@ -59,30 +66,40 @@ export class BalloonPoppingComponent implements OnInit {
         this.levelService.setDifficulty(selectedDifficulty);
     }
 
-    startGame() {
+    startGame() {        
+        // ✅ Clear any previous game-ending timeout before setting a new one
+        if (this.gameTimeout) {
+            clearTimeout(this.gameTimeout);
+        }
+    
         const gameDuration = this.levelService.getGameDuration(this.currentLevel); // Set duration based on difficulty
-
+    
         this.gameStarted = true;
         this.levelService.resetScore();
         this.balloons = [];
-
+    
         this.spawnBalloons();
-
-        setTimeout(() => {
+    
+        console.log(gameDuration);
+    
+        // ✅ Store the timeout ID so we can clear it if needed
+        this.gameTimeout = setTimeout(() => {
+            console.log('chemat din startGame', gameDuration);
             this.endGame();
         }, gameDuration);
     }
+    
 
     spawnBalloons() {
         this.balloons = []; // Clear previous balloons
-    
+
         const spawnType = this.currentLevel.spawnType ?? "gradual"; // Default to "gradual"
 
-        if (this.currentLevel.spawnType === "instant") {
+        if (spawnType === "instant") {
             // Use totalItemsCount if available; otherwise, estimate based on game duration
             const totalBalloons = this.currentLevel.totalItemsCount ??
                 Math.floor((this.currentLevel.gameDuration / 1000) * 3);
-    
+
             for (let i = 0; i < totalBalloons; i++) {
                 const newBalloon = this.currentLevel.generateBalloon(this);
                 this.balloons.push(newBalloon);
@@ -90,6 +107,7 @@ export class BalloonPoppingComponent implements OnInit {
         } else {
             // Gradual spawn: Balloons appear over time
             const spawnRate = this.levelService.getSpawnRate();
+            console.log(spawnRate)
             this.gameInterval = setInterval(() => {
                 const newBalloon = this.currentLevel.generateBalloon(this);
                 this.balloons.push(newBalloon);
@@ -98,9 +116,21 @@ export class BalloonPoppingComponent implements OnInit {
     }
 
     endGame() {
-        clearInterval(this.gameInterval);
+        console.log('endGame', this.gameInterval)
+        if(this.gameInterval)
+            clearInterval(this.gameInterval);
+
+        if (this.gameTimeout) {
+            clearTimeout(this.gameTimeout);
+            this.gameTimeout = null;
+        }
+
         this.gameStarted = false;
         this.gameEnded = true; // Activăm ecranul final
+
+        if (this.currentLevel.initLevel) {
+            this.currentLevel.initLevel(this); // Initialize level-specific settings
+        }
 
         if (this.levelService.getScore() >= this.currentLevel.minScoreToAdvance) {
             this.gameResultMessage = `🎉 You won! Your score: ${this.levelService.getScore()}`;
@@ -122,13 +152,14 @@ export class BalloonPoppingComponent implements OnInit {
             this.gameEnded = false;
         }
     }
+    
     popBalloon(balloon: any) {
         if (balloon.popped) return;
 
         const balloonIndex = this.balloons.findIndex(b => b.id === balloon.id);
         if (balloonIndex === -1) return;
 
-        const shouldPop = this.currentLevel.shouldPopBalloon(balloon);
+        const shouldPop = this.currentLevel.shouldPopBalloon(balloon, this);
 
         if (shouldPop) {
             this.levelService.increaseScore(this.currentLevel.getScoreForBalloon(balloon, this));
@@ -155,6 +186,10 @@ export class BalloonPoppingComponent implements OnInit {
 
                 setTimeout(() => {
                     this.balloons = this.balloons.filter(b => b.id !== balloon.id);
+                    if (this.balloons.length === 0 && this.currentLevel.spawnType == 'instant') {
+                        console.log('chemat din pop', this.balloons)
+                        this.endGame(); // ✅ End the game early if all balloons are gone
+                    }
                 }, 300);
             }
         } else {

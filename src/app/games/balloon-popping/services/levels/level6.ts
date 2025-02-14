@@ -5,21 +5,20 @@ export const Level6: LevelWithMathChallenge = {
     name: "Math Challenge Balloons",
     description: "", // Will be set in startLevel()
     minScoreToAdvance: 5,
-    gameDuration: 30000, // Will be updated in startLevel()
+    gameDuration: 20000, // Will be updated in startLevel()
     spawnType: "instant", // Instantly spawn all balloons
     totalItemsCount: 15, // Set total number of balloons
-    targetNumber: 0, // The correct answer to match
+    targetNumber: Math.floor(Math.random() * 10) + 2, // The correct answer to match
 
-    startLevel: (game: any) => {
-        game.currentLevel.targetNumber = Math.floor(Math.random() * 10) + 2;
+    initLevel: (game: any) => {
         game.currentLevel.description = `🎯 Pop all balloons that equal <b>
         <span style="font-size: 2rem; color: #ff5733;">${game.currentLevel.targetNumber}</span>
         </b>`;
+        console.log(game.currentLevel.targetNumber);
     },
 
     generateBalloon: (game): any => {
         const target: number = (game.currentLevel as LevelWithMathChallenge).targetNumber;
-        const totalBalloons: number = game.currentLevel.totalItemsCount ?? 20; // Default if not set
         const minScore: number = game.currentLevel.minScoreToAdvance;
     
         // Compute the required number of correct answers based on difficulty
@@ -81,14 +80,17 @@ export const Level6: LevelWithMathChallenge = {
                 left: `${left}%`,
                 top: `${top}%`,
                 background: game.currentLevel.getRandomColor(),
-            },
+                width: "70px",
+                height: "90px",
+            },            
         };
     },
     
 
 
     getRandomColor: () => {
-        return ["purple"];
+        const colors = ["purple", "red", "blue"];
+        return colors[Math.floor(Math.random() * colors.length)];
     },
 
     getScoreForBalloon: (balloon, game) => {
@@ -97,6 +99,6 @@ export const Level6: LevelWithMathChallenge = {
 
     shouldPopBalloon: () => true,
 
-    getBalloonBadge: (balloon) => balloon.equation,
+    getBalloonBadge: (balloon) =>  `<span style="font-size: 1.2rem; width:60px">${balloon.equation}</span>`,
 };
 
