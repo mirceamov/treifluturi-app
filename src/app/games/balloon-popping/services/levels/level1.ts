@@ -6,7 +6,8 @@ export const Level1: Level = {
   description: "Pop as many balloons as you can!",
   minScoreToAdvance: 10,
   gameDuration: 30000,
-
+  showScore: true,
+  
   generateBalloon: () => {
     const randomX = Math.random() * 85;
     const randomSpeed = Math.random() * (10 - 6) + 6; // Between 6s and 10s

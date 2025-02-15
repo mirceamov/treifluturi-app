@@ -21,7 +21,7 @@
 
         <!-- game screen -->
         <div class="game-screen" [class.active]="gameStarted" [class.ending]="gameEnded" *ngIf="gameStarted">
-            <h3 class="score">Score: {{ levelService.getScore() }}</h3>
+            <h3 *ngIf="currentLevel.showScore" class="score">Score: {{ levelService.getScore() }}</h3>
 
             <div class="balloon-container">
                 <div class="balloon" *ngFor="let balloon of balloons" [attr.data-id]="balloon.id"

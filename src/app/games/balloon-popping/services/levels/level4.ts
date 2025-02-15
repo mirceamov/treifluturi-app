@@ -6,7 +6,8 @@ export const Level4: Level = {
     description: "Only pop even-numbered balloons! Odd numbers will decrease your score.",
     minScoreToAdvance: 5,
     gameDuration: 60000,
-  
+    showScore: true,
+    
     generateBalloon: () => {
       const number = Math.floor(Math.random() * 9) + 1; // Random number 1-9
       return {

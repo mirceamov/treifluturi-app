@@ -6,7 +6,8 @@ export const Level2: Level = {
   description: "Only pop the BIG balloons! Small balloons will decrease your score.",
   minScoreToAdvance: 5,
   gameDuration: 30000,
-
+  showScore: true,
+  
   generateBalloon: () => {
     const randomX = Math.random() * 85;
     const randomSpeed = Math.random() * (8 - 5) + 5; // Between 5s and 8s

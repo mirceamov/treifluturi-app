@@ -6,7 +6,8 @@ export const Level3: Level = {
     description: "Big balloons pop on 3 click, small ones need 1 clicks!",
     minScoreToAdvance: 10,
     gameDuration: 30000,
-
+    showScore: true,
+    
     generateBalloon: () => {
         const isBig = Math.random() > 0.5; // 50% chance for big/small balloon
         return {

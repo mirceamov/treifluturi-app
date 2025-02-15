@@ -8,7 +8,8 @@ export const Level7: Level7MatchingPairs = {
     gameDuration: 20000,
     spawnType: "instant",
     totalItemsCount: 16, // Number of balloons
-
+    showScore: true,
+    
     emojiList: ["🐱", "🚗", "🍎", "🐶", "🦄", "🌈", "🎸", "🍉"], // Emojis used
     lastPoppedBalloon: null, // Store last popped balloon here
     pairList: [], // Initialize empty pair list

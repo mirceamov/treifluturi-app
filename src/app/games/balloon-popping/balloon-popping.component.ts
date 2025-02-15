@@ -84,7 +84,6 @@ export class BalloonPoppingComponent implements OnInit {
     
         // ✅ Store the timeout ID so we can clear it if needed
         this.gameTimeout = setTimeout(() => {
-            console.log('chemat din startGame', gameDuration);
             this.endGame();
         }, gameDuration);
     }
@@ -107,7 +106,6 @@ export class BalloonPoppingComponent implements OnInit {
         } else {
             // Gradual spawn: Balloons appear over time
             const spawnRate = this.levelService.getSpawnRate();
-            console.log(spawnRate)
             this.gameInterval = setInterval(() => {
                 const newBalloon = this.currentLevel.generateBalloon(this);
                 this.balloons.push(newBalloon);
@@ -116,7 +114,6 @@ export class BalloonPoppingComponent implements OnInit {
     }
 
     endGame() {
-        console.log('endGame', this.gameInterval)
         if(this.gameInterval)
             clearInterval(this.gameInterval);
 
@@ -127,10 +124,6 @@ export class BalloonPoppingComponent implements OnInit {
 
         this.gameStarted = false;
         this.gameEnded = true; // Activăm ecranul final
-
-        if (this.currentLevel.initLevel) {
-            this.currentLevel.initLevel(this); // Initialize level-specific settings
-        }
 
         if (this.levelService.getScore() >= this.currentLevel.minScoreToAdvance) {
             this.gameResultMessage = `🎉 You won! Your score: ${this.levelService.getScore()}`;
@@ -143,7 +136,8 @@ export class BalloonPoppingComponent implements OnInit {
 
     restartGame() {
         this.gameEnded = false;
-        this.startGame();
+        this.gameStarted = false;
+        this.loadLevel();
     }
 
     nextLevel() {
@@ -187,8 +181,10 @@ export class BalloonPoppingComponent implements OnInit {
                 setTimeout(() => {
                     this.balloons = this.balloons.filter(b => b.id !== balloon.id);
                     if (this.balloons.length === 0 && this.currentLevel.spawnType == 'instant') {
-                        console.log('chemat din pop', this.balloons)
                         this.endGame(); // ✅ End the game early if all balloons are gone
+                    }
+                    if (this.currentLevel.shouldEndGame && this.currentLevel.shouldEndGame(this)) {
+                        this.endGame();
                     }
                 }, 300);
             }
@@ -210,6 +206,9 @@ export class BalloonPoppingComponent implements OnInit {
 
     onDifficultyChange(difficulty: Difficulty) {
         this.levelService.setDifficulty(difficulty);
+        if (this.currentLevel.initLevel) {
+            this.currentLevel.initLevel(this);
+        }
     }
 }
 

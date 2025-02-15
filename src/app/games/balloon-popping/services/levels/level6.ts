@@ -8,9 +8,11 @@ export const Level6: LevelWithMathChallenge = {
     gameDuration: 20000, // Will be updated in startLevel()
     spawnType: "instant", // Instantly spawn all balloons
     totalItemsCount: 15, // Set total number of balloons
-    targetNumber: Math.floor(Math.random() * 10) + 2, // The correct answer to match
+    showScore: true,
+    targetNumber: 0, // The correct answer to match
 
     initLevel: (game: any) => {
+        game.currentLevel.targetNumber = Math.floor(Math.random() * 10) + 2
         game.currentLevel.description = `🎯 Pop all balloons that equal <b>
         <span style="font-size: 2rem; color: #ff5733;">${game.currentLevel.targetNumber}</span>
         </b>`;

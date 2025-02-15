@@ -6,6 +6,7 @@ export const Level5: LevelWithRedBalloons = {
     description: "Only pop <span style='color: red; font-size: xx-large;'>red</span> balloons! Any other color decreases your score.",
     minScoreToAdvance: 5,
     gameDuration: 30000,
+    showScore: true,
     redBalloonCount: 0,
     precomputedBalloons: [], // Initialize empty array
 
