@@ -12,6 +12,8 @@ export const Level3: Level = {
 
     generateBalloon: () => {
         const isBig = Math.random() > 0.5; // 50% chance for big/small balloon
+        const randomSpeed = Math.random() * (10 - 6) + 6; // Between 6s and 10s
+
         return {
             id: Math.random(),
             clicksRequired: isBig ? 3 : 2, // Big pops in 3, small pops in 2
@@ -20,8 +22,8 @@ export const Level3: Level = {
             className: "balloon",
             style: {
                 left: `${Math.random() * 85}%`,
-                bottom: `0%`,
-                animation: `floatUp 8s linear forwards`,
+                bottom: `-80px`,
+                animation: `floatUp ${randomSpeed}s linear forwards`,
                 background: Level3.getRandomColor(),
                 width: isBig ? "80px" : "40px",
                 height: isBig ? "100px" : "50px",

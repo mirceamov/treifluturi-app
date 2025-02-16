@@ -80,7 +80,7 @@ export const Level4: Level4WithPrecomputedBalloons = {
         const width = Math.floor(Math.random() * (80 - 60 + 1)) + 50; // 50px to 80px
         const height = Math.floor(Math.random() * (90 - 60 + 1)) + 60; // 60px to 100px
         
-        const randomSpeed = Math.random() * (10 - 6) + 5; // Between 6s and 10s
+        const randomSpeed = Math.random() * (10 - 6) + 6; // Between 6s and 10s
 
         return {
             id: Math.random(),
@@ -100,7 +100,7 @@ export const Level4: Level4WithPrecomputedBalloons = {
     
 
     getRandomColor: () => {
-        return ["red", "blue", "green", "yellow", "purple"][
+        return ["red", "blue", "green", "gray", "purple"][
             Math.floor(Math.random() * 5)
         ];
     },

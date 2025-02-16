@@ -12,9 +12,6 @@
         <div class="game-screen" *ngIf="!gameStarted && !gameEnded">
             <h2>Level {{ currentLevel.id }} - {{ currentLevel.name }}</h2>
             <p [innerHTML]="getSafeDescription()"></p>
-
-
-
             <br />
             <button class="sparkle-button" (click)="startGame()">▶ Start Game</button>
         </div>
@@ -22,6 +19,7 @@
         <!-- game screen -->
         <div class="game-screen" [class.active]="gameStarted" [class.ending]="gameEnded" *ngIf="gameStarted">
             <h3 *ngIf="currentLevel.showScore" class="score">Score: {{ levelService.getScore() }}</h3>
+            
             <app-clock *ngIf="gameStarted" [duration]="levelService.getGameDuration(currentLevel)"></app-clock>
             
             <div class="balloon-container">

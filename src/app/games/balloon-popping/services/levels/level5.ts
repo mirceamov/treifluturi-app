@@ -5,7 +5,7 @@ export const Level5: LevelWithRedBalloons = {
     name: "Catch the Red Balloons",
     description: "Only pop <span style='color: red; font-size: xx-large;'>red</span> balloons! Any other color decreases your score.",
     minScoreToAdvance: 5,
-    gameDuration: 30000,
+    gameDuration: 60000,
     showScore: true,
     redBalloonCount: 0,
     precomputedBalloons: [], // Initialize empty array
@@ -51,9 +51,7 @@ export const Level5: LevelWithRedBalloons = {
     
         level.precomputedBalloons = balloonSequence; // ✅ Store for later use
     },
-    
-
-    
+        
     generateBalloon: (game) => {
         const level = game.currentLevel as LevelWithRedBalloons;
         // ✅ Get the next precomputed balloon type
@@ -61,8 +59,6 @@ export const Level5: LevelWithRedBalloons = {
 
         return Level5.createBalloon(nextColor);
     },
-    
-    
 
     getMinRedBalloonCount: (difficulty, minScore) => {
         switch (difficulty) {

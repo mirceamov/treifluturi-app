@@ -3,9 +3,9 @@ import { Level } from "./level.interface";
 export const Level1: Level = {
   id: 1,
   name: "Balloon Popping",
-  description: "Pop as many balloons as you can!",
+  description: `Pop as many <span style="font-size: 1.5rem;">🎈</span> balloons as you can!`,
   minScoreToAdvance: 10,
-  gameDuration: 30000,
+  gameDuration: 60000,
   showScore: true,
 
   generateBalloon: () => {
@@ -17,7 +17,7 @@ export const Level1: Level = {
       className: "balloon",
       style: {
         left: `${randomX}%`,
-        bottom: `-5%`,
+        bottom: `-80px`,
         animation: `floatUp ${randomSpeed}s linear forwards`,
         background: Level1.getRandomColor(),
         opacity: 1
