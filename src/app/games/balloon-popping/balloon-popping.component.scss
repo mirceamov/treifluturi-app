@@ -199,13 +199,25 @@
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
 }
 
+
 .star {
   position: absolute;
-  background: gold;
   clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-  box-shadow: 0px 0px 10px rgba(255, 223, 0, 0.8); // Glowing effect
   cursor: pointer;
 }
+
+.real-star {
+  background: gold;
+  box-shadow: 0px 0px 10px rgba(255, 223, 0, 0.8);
+}
+
+.fake-star {
+  background: gray !important; /* Hollow star */
+  border: 2px solid pink; /* Gray outline */
+  box-shadow: none !important; /* No glow */
+  filter: brightness(60%) blur(1px); /* Make it look dull */
+}
+
 
   
   

@@ -5,7 +5,7 @@ export const Level7: Level7MatchingPairs = {
     name: "Memory Match Balloons",
     description: `🎯 Find and pop <b>matching pairs</b>!`,
     minScoreToAdvance: 5,
-    gameDuration: 20000,
+    gameDuration: 30000,
     spawnType: "instant",
     totalItemsCount: 16, // Number of balloons
     showScore: true,
