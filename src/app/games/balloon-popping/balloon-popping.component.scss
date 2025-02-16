@@ -103,7 +103,7 @@
   font-size: 1.2rem;
   color: #555;
 }
-
+/*
 .balloon {
   width: 60px;
   height: 80px;
@@ -111,17 +111,27 @@
     circle at 30% 20%,
     rgba(255, 255, 255, 0.7),
     rgba(255, 0, 0, 1)
-  ); /* Glossy effect */
+  );
   border-radius: 50%;
   position: absolute;
   bottom: 0;
   transition: transform 0.3s;
   box-shadow: inset -3px -3px 10px rgba(0, 0, 0, 0.3),
-    0px 5px 10px rgba(0, 0, 0, 0.2); /* Adds depth */
+    0px 5px 10px rgba(0, 0, 0, 0.2); 
   display: flex;
   justify-content: center;
   align-items: flex-end;
   cursor:pointer;
+}*/
+.balloon {
+  position: absolute;
+  width: 60px;
+  height: 80px;
+  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.7), rgba(255, 0, 0, 1)); 
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: inset -3px -3px 10px rgba(0, 0, 0, 0.3),
+              0px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 .big {
@@ -167,23 +177,6 @@
 .shaking {
   animation: shake 0.2s ease-in-out;
 }
-@keyframes shake {
-  0% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-5px);
-  }
-  50% {
-    transform: translateX(5px);
-  }
-  75% {
-    transform: translateX(-5px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
 
 .back-btn {
   position: absolute;
@@ -206,6 +199,13 @@
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
 }
 
+.star {
+  position: absolute;
+  background: gold;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  box-shadow: 0px 0px 10px rgba(255, 223, 0, 0.8); // Glowing effect
+  cursor: pointer;
+}
 
   
   

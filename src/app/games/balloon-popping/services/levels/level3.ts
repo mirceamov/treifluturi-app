@@ -3,18 +3,21 @@ import { Level } from "./level.interface";
 export const Level3: Level = {
     id: 3,
     name: "Tough Balloons",
-    description: "Big balloons pop on 3 click, small ones need 1 clicks!",
+    description: `<p><span style="font-size: 2rem;">🎈</span> big ballons need <span style="font-size: 2rem;">3</span> pushes to pop!</p> 
+<p><span style="font-size: 1.5rem;">🎈</span> small ballons need only <span style="font-size: 1.5rem;">2</span> pushes! </p> 
+<br><br>Tap carefully and pop them all! 🎯🏆`,
     minScoreToAdvance: 10,
-    gameDuration: 30000,
+    gameDuration: 60000,
     showScore: true,
-    
+
     generateBalloon: () => {
         const isBig = Math.random() > 0.5; // 50% chance for big/small balloon
         return {
             id: Math.random(),
-            clicksRequired: isBig ? 3 : 1, // Big pops in 3, small pops in 1
+            clicksRequired: isBig ? 3 : 2, // Big pops in 3, small pops in 2
             currentClicks: 0,
             size: isBig ? "big" : "small",
+            className: "balloon",
             style: {
                 left: `${Math.random() * 85}%`,
                 bottom: `0%`,

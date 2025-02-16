@@ -22,16 +22,19 @@
         <!-- game screen -->
         <div class="game-screen" [class.active]="gameStarted" [class.ending]="gameEnded" *ngIf="gameStarted">
             <h3 *ngIf="currentLevel.showScore" class="score">Score: {{ levelService.getScore() }}</h3>
-
+            <app-clock *ngIf="gameStarted" [duration]="levelService.getGameDuration(currentLevel)"></app-clock>
+            
             <div class="balloon-container">
-                <div class="balloon" *ngFor="let balloon of balloons" [attr.data-id]="balloon.id"
-                    [ngStyle]="balloon.style" [class.popped]="balloon.popped" (click)="popBalloon(balloon)">
+                <div *ngFor="let item of balloons" [class]="item.className" [attr.data-id]="item.id"
+                    [ngStyle]="item.style" (click)="popBalloon(item)">
 
-                    <span *ngIf="currentLevel?.getBalloonBadge(balloon)" class="balloon-badge"
-                        [innerHTML]="getSafeHtml(currentLevel.getBalloonBadge?.(balloon))"></span>
+                    <span *ngIf="currentLevel?.getBalloonBadge(item)" class="balloon-badge"
+                        [innerHTML]="getSafeHtml(currentLevel.getBalloonBadge?.(item))">
+                    </span>
 
                 </div>
             </div>
+
         </div>
 
         <!-- result screen -->

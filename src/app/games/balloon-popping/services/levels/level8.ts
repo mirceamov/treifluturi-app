@@ -69,6 +69,7 @@ export const Level8: Level8WithSequence = {
 
         return {
             id: Math.random(),
+            className: "balloon",
             number: nextNumber,
             style: {
                 left: `${left}%`,

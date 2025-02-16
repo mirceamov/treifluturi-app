@@ -1,5 +1,6 @@
 import { Level } from "./level.interface";
 
-export interface LevelWithMathChallenge extends Level {
-    targetNumber: number;    
+export interface Level6WithMathChallenge extends Level {
+    targetNumber: number; 
+    correctBalloonsToFind: number;   
 }

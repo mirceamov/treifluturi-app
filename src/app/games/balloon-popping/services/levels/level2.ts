@@ -7,7 +7,7 @@ export const Level2: Level = {
   minScoreToAdvance: 5,
   gameDuration: 30000,
   showScore: true,
-  
+
   generateBalloon: () => {
     const randomX = Math.random() * 85;
     const randomSpeed = Math.random() * (8 - 5) + 5; // Between 5s and 8s
@@ -16,6 +16,7 @@ export const Level2: Level = {
     return {
       id: Math.random(),
       size: isBig ? "big" : "small", // Add size property
+      className: "balloon",
       style: {
         left: `${randomX}%`,
         bottom: `-5%`,

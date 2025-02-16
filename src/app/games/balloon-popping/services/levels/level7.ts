@@ -9,7 +9,7 @@ export const Level7: Level7MatchingPairs = {
     spawnType: "instant",
     totalItemsCount: 16, // Number of balloons
     showScore: true,
-    
+
     emojiList: ["🐱", "🚗", "🍎", "🐶", "🦄", "🌈", "🎸", "🍉"], // Emojis used
     lastPoppedBalloon: null, // Store last popped balloon here
     pairList: [], // Initialize empty pair list
@@ -48,6 +48,7 @@ export const Level7: Level7MatchingPairs = {
 
         return {
             id: Math.random(),
+            className: "balloon",
             emoji: emoji,
             matched: false,
             style: {
@@ -87,7 +88,7 @@ export const Level7: Level7MatchingPairs = {
         } else {
             // ❌ Wrong match! Penalize and reset
             level.lastPoppedBalloon = null;
-            return game.levelService.getScore() > 0 ? -1 : 0;
+            return -1;
         }
     }
 };

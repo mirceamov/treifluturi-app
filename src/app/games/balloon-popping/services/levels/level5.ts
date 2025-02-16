@@ -76,6 +76,7 @@ export const Level5: LevelWithRedBalloons = {
     createBalloon: (color) => {
         return {
             id: Math.random(),
+            className: "balloon",
             color: color,
             style: {
                 left: `${Math.random() * 85}%`,

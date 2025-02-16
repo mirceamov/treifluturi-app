@@ -149,25 +149,25 @@ export class BalloonPoppingComponent implements OnInit {
     
     popBalloon(balloon: any) {
         if (balloon.popped) return;
-
+    
         const balloonIndex = this.balloons.findIndex(b => b.id === balloon.id);
         if (balloonIndex === -1) return;
-
+    
         const shouldPop = this.currentLevel.shouldPopBalloon(balloon, this);
-
+    
         if (shouldPop) {
             this.levelService.increaseScore(this.currentLevel.getScoreForBalloon(balloon, this));
-
+    
             // Play pop sound
             const popSound = new Audio("assets/sounds/pop.mp3");
             popSound.play();
-
-            // Get current position
-            const balloonElement = document.querySelector(`.balloon[data-id='${balloon.id}']`) as HTMLElement;
+    
+            // Get current position (works for both balloons & stars)
+            const balloonElement = document.querySelector(`[data-id='${balloon.id}']`) as HTMLElement;
             if (balloonElement) {
                 const computedStyle = window.getComputedStyle(balloonElement);
                 const currentBottom = computedStyle.getPropertyValue("bottom");
-
+    
                 this.balloons[balloonIndex] = {
                     ...this.balloons[balloonIndex],
                     style: {
@@ -177,7 +177,7 @@ export class BalloonPoppingComponent implements OnInit {
                     },
                     popped: true,
                 };
-
+    
                 setTimeout(() => {
                     this.balloons = this.balloons.filter(b => b.id !== balloon.id);
                     if (this.balloons.length === 0 && this.currentLevel.spawnType == 'instant') {
@@ -189,20 +189,19 @@ export class BalloonPoppingComponent implements OnInit {
                 }, 300);
             }
         } else {
-            const balloonElement = document.querySelector(`.balloon[data-id='${balloon.id}']`) as HTMLElement;
+            const balloonElement = document.querySelector(`[data-id='${balloon.id}']`) as HTMLElement;
             if (balloonElement) {
                 balloonElement.style.animationPlayState = "paused"; // Pause floatUp
                 balloonElement.classList.add("shaking"); // Apply shake effect
-
+    
                 setTimeout(() => {
                     balloonElement.classList.remove("shaking"); // Remove shake effect
                     balloonElement.style.animationPlayState = "running"; // Resume floatUp
                 }, 200);
-
-
             }
         }
     }
+    
 
     onDifficultyChange(difficulty: Difficulty) {
         this.levelService.setDifficulty(difficulty);
