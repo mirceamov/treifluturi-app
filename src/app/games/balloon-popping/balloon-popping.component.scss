@@ -43,7 +43,8 @@
   width: 100%; /* Stretch across the entire row */
   background: rgba(200, 200, 200, 0.8); /* Light gray translucent background */
   padding: 10px 0;
-  text-align: center;
+  padding-left: 10px;
+  text-align: left;
   font-size: 1.5rem;
   font-weight: bold;
   color: #333;
@@ -82,8 +83,10 @@
   flex-direction: column;
   justify-content: flex-start; /* Ensure the score has space */
   align-items: center;
-  height: 100%;
+  height: 94%;
+  width:95%;
   padding: 0;
+  opacity:95%;
 }
 
 .result-screen {
@@ -103,26 +106,7 @@
   font-size: 1.2rem;
   color: #555;
 }
-/*
-.balloon {
-  width: 60px;
-  height: 80px;
-  background: radial-gradient(
-    circle at 30% 20%,
-    rgba(255, 255, 255, 0.7),
-    rgba(255, 0, 0, 1)
-  );
-  border-radius: 50%;
-  position: absolute;
-  bottom: 0;
-  transition: transform 0.3s;
-  box-shadow: inset -3px -3px 10px rgba(0, 0, 0, 0.3),
-    0px 5px 10px rgba(0, 0, 0, 0.2); 
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  cursor:pointer;
-}*/
+
 .balloon {
   position: absolute;
   width: 60px;
@@ -220,4 +204,28 @@
 
 
   
-  
+@media screen and (max-width: 450px) {
+  .back-btn {    
+    padding: 5px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 0 20px;
+    z-index: 100;
+  }
+
+  .game-wrapper {
+    .frame {
+      width: 100%;
+      height: 100vh;
+    }
+  }
+
+  .balloon {
+    width: 50px;
+    height: 60px;
+  }
+
+  .game-screen.active {
+    margin-top: 30px;
+  }
+}

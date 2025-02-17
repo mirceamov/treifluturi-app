@@ -14,6 +14,7 @@ export const Level8: Level8WithSequence = {
     currentSequenceIndex: 0,
 
     initLevel: (game) => {
+        game.currentLevel.endLevelMessage = undefined;
         const difficulty = game.levelService.getDifficulty();
         const sequenceLength = difficulty === "Easy" ? 3 : difficulty === "Normal" ? 4 : 5;
 
@@ -120,14 +121,31 @@ export const Level8: Level8WithSequence = {
             Math.floor(Math.random() * 5)
         ];
     },
+    
     shouldEndGame: (game) => {
         const level = game.currentLevel as Level8WithSequence;
         const foundSequence = level.currentSequenceIndex === level.sequenceToFind.length; // ✅ Ends game when full sequence is found
         
-        if(foundSequence) {
+        if (foundSequence) {
             game.levelService.increaseScore(1);
+    
+            const difficulty = game.levelService.getDifficulty();
+            switch (difficulty) {
+                case "Easy": 
+                    game.currentLevel.endLevelMessage = "🎉 Amazing! You found the right numbers! <br> Want to try a harder challenge? 🔢";
+                    break;
+                case "Normal": 
+                    game.currentLevel.endLevelMessage = "👏 Well done! Your number skills are sharp! <br> Can you beat the hardest level? 🚀";
+                    break; 
+                case "Hard": 
+                    game.currentLevel.endLevelMessage = "🌟 Genius! You cracked the toughest sequence! <br> You’re a true math wizard! 🏆";
+                    break;
+            }
+    
             return true;
         }
-        else return false
-    }
+        
+        return false;
+    },
+    
 };

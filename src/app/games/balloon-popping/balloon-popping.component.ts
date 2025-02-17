@@ -126,10 +126,10 @@ export class BalloonPoppingComponent implements OnInit {
         this.gameEnded = true; // Activăm ecranul final
 
         if (this.levelService.getScore() >= this.currentLevel.minScoreToAdvance) {
-            this.gameResultMessage = `🎉 You won! Your score: ${this.levelService.getScore()}`;
+            this.gameResultMessage = `🎉 You won! <br> Your score: ${this.levelService.getScore()}`;
             this.canAdvance = true;
         } else {
-            this.gameResultMessage = `😢 Game Over! Your score: ${this.levelService.getScore()}`;
+            this.gameResultMessage = `😢 Game Over! <br> Your score: ${this.levelService.getScore()}`;
             this.canAdvance = false;
         }
     }
@@ -180,26 +180,30 @@ export class BalloonPoppingComponent implements OnInit {
     
                 setTimeout(() => {
                     this.balloons = this.balloons.filter(b => b.id !== balloon.id);
-                    if (this.balloons.length === 0 && this.currentLevel.spawnType == 'instant') {
-                        this.endGame(); // ✅ End the game early if all balloons are gone
-                    }
+                    
                     if (this.currentLevel.shouldEndGame && this.currentLevel.shouldEndGame(this)) {
                         this.endGame();
                     }
                 }, 300);
             }
-        } else {
+        } else {  
             const balloonElement = document.querySelector(`[data-id='${balloon.id}']`) as HTMLElement;
+            
             if (balloonElement) {
-                balloonElement.style.animationPlayState = "paused"; // Pause floatUp
-                balloonElement.classList.add("shaking"); // Apply shake effect
-    
+                
+                // Remove and re-add class to restart animation
+                balloonElement.classList.remove("shaking");
+                void balloonElement.offsetWidth; // ✅ Force reflow
+                balloonElement.classList.add("shaking");
+        
                 setTimeout(() => {
                     balloonElement.classList.remove("shaking"); // Remove shake effect
-                    balloonElement.style.animationPlayState = "running"; // Resume floatUp
+                    setTimeout(() => {
+                        balloonElement.style.animationPlayState = "running"; // Resume original animation
+                    }, 50);
                 }, 200);
             }
-        }
+        }        
     }
     
 
@@ -208,6 +212,11 @@ export class BalloonPoppingComponent implements OnInit {
         if (this.currentLevel.initLevel) {
             this.currentLevel.initLevel(this);
         }
+    }
+
+    getEndLevelMessage() {
+        const msg = this.currentLevel.endLevelMessage ?? this.gameResultMessage
+        return this.getSafeHtml(msg);
     }
 }
 

@@ -13,6 +13,7 @@ export const Level6: Level6WithMathChallenge = {
     correctBalloonsToFind: 0, // Store how many correct balloons need to be found
 
     initLevel: (game: any) => {
+        game.currentLevel.endLevelMessage = undefined;
         const level = game.currentLevel as Level6WithMathChallenge;
 
         level.targetNumber = Math.floor(Math.random() * 10) + 2;
@@ -104,6 +105,26 @@ export const Level6: Level6WithMathChallenge = {
 
     /** End the game when all required correct balloons have been popped */
     shouldEndGame: (game) => {
-        return game.levelService.getScore() >= (game.currentLevel as Level6WithMathChallenge).correctBalloonsToFind;
+        const level = game.currentLevel as Level6WithMathChallenge;
+        const score = game.levelService.getScore();
+        const requiredScore = level.correctBalloonsToFind;
+        const completed = score >= requiredScore;
+    
+        if (completed) {
+            const difficulty = game.levelService.getDifficulty();
+            switch (difficulty) {
+                case "Easy":
+                    game.currentLevel.endLevelMessage = "Brilliant! 🏆 You solved the math challenge like a pro!";
+                    break;
+                case "Normal":
+                    game.currentLevel.endLevelMessage = "Fantastic work! 🔥 Your brain is on fire!";
+                    break;
+                case "Hard":
+                    game.currentLevel.endLevelMessage = "Genius alert! 🚀 You conquered the hardest math challenge!";
+                    break;
+            }
+        }
+    
+        return completed;
     }
 };

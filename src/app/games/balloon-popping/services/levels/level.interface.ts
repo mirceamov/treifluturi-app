@@ -10,6 +10,7 @@ export interface Level {
     spawnType?: "gradual" | "instant"; // OPTIONAL, defaults to "gradual"
     totalItemsCount?: number; // Number of items for instant spawn (optional)
     showScore:boolean;
+    endLevelMessage?: string;
 
     initLevel?: (game: any) => void;
     generateBalloon: (game: any) => any; // Now takes game instance

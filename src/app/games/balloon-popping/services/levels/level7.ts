@@ -16,6 +16,7 @@ export const Level7: Level7MatchingPairs = {
 
     initLevel: (game) => {
         const level = game.currentLevel as Level7MatchingPairs;
+        level.endLevelMessage = undefined;
         level.lastPoppedBalloon = null; // Reset last popped on level start
         level.pairList = []; // Ensure pairList is reset        
     },
@@ -69,26 +70,55 @@ export const Level7: Level7MatchingPairs = {
         return `<span style="font-size: 2rem;">${balloon.emoji}</span>`; // Display emoji
     },
 
-    shouldPopBalloon: () => true,
-
-    getScoreForBalloon: (balloon, game) => {
-       
+    shouldPopBalloon: (balloon, game) => {
         const level = game.currentLevel as Level7MatchingPairs;
+    
+        // If no balloon is selected yet, store it and don't pop
         if (level.lastPoppedBalloon === null) {
-            // First selection: Store balloon, no penalty yet
             level.lastPoppedBalloon = { id: balloon.id, emoji: balloon.emoji };
-            return 0; // No score change on first pick
+            return true;
         }
     
+        // Check if the current balloon matches the last popped one
         if (level.lastPoppedBalloon.emoji === balloon.emoji &&
             level.lastPoppedBalloon.id !== balloon.id) {
-            // ✅ Correct match! Reset and reward points
-            level.lastPoppedBalloon = null;
-            return 1;
-        } else {
-            // ❌ Wrong match! Penalize and reset
-            level.lastPoppedBalloon = null;
-            return -1;
+            level.lastPoppedBalloon = null; // ✅ Reset after a match
+            return true; // ✅ Pop both balloons
         }
-    }
+    
+        const popSound = new Audio("assets/sounds/shake.mp3");
+        popSound.play();
+        return false; // Don't pop
+    },
+    
+
+    getScoreForBalloon: (balloon, game) => {
+        const level = game.currentLevel as Level7MatchingPairs;
+    
+        // If this is the first selection, no score change
+        if (level.lastPoppedBalloon === null) {            
+            return 1; 
+        }
+        
+        return 0;
+    },
+    
+    shouldEndGame: (game) => {        
+        const isGameOver = game.levelService.getScore() === 8;
+        if (isGameOver) {
+            const difficulty = game.levelService.getDifficulty();
+            switch (difficulty) {
+                case "Easy":
+                    game.currentLevel.endLevelMessage = "🧠 Great job! Your memory is sharp! 🎉";
+                    break;
+                case "Normal":
+                    game.currentLevel.endLevelMessage = "🔥 Impressive! You matched them like a pro!";
+                    break;
+                case "Hard":
+                    game.currentLevel.endLevelMessage = "🚀 You were **bullet fast!** Amazing memory skills!";
+                    break;
+            }
+        }
+        return isGameOver;
+    },    
 };

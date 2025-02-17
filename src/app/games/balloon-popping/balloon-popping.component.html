@@ -4,13 +4,12 @@
         <i class="bi bi-arrow-left"></i>
     </button>
 
-    <app-difficulty-selector class="mb-2" *ngIf="!gameStarted " (difficultyChanged)="onDifficultyChange($event)">
-    </app-difficulty-selector>
-
     <div class="frame">
         <!-- result screen -->
         <div class="game-screen" *ngIf="!gameStarted && !gameEnded">
             <h2>Level {{ currentLevel.id }} - {{ currentLevel.name }}</h2>
+            <app-difficulty-selector class="mb-3" *ngIf="!gameStarted && !gameEnded" (difficultyChanged)="onDifficultyChange($event)">
+            </app-difficulty-selector>
             <p [innerHTML]="getSafeDescription()"></p>
             <br />
             <button class="sparkle-button" (click)="startGame()">▶ Start Game</button>
@@ -37,7 +36,7 @@
 
         <!-- result screen -->
         <div class="game-screen result-screen" *ngIf="gameEnded">
-            <h2>{{ gameResultMessage }}</h2>
+            <h2 [innerHTML]="getEndLevelMessage()"></h2>
 
             <div class="d-flex justify-content-center gap-3 mt-4">
                 <button class="sparkle-button" (click)="restartGame()">
@@ -45,7 +44,7 @@
                 </button>
 
                 <button *ngIf="canAdvance" class="sparkle-button" (click)="nextLevel()">
-                    <i class="bi bi-arrow-right-circle"></i> Next Level
+                    <i class="bi bi-arrow-right-circle"></i> Next
                 </button>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Level } from "./levels/level.interface";
-import { Level1, Level2, Level3, Level4, Level5, Level6, Level7, Level8, Level9, Level10 } from "./levels";
+import { Level1, Level2, Level3, Level4, Level5, Level6, Level7, Level8, Level9, Level10, Level11 } from "./levels";
 
 export type Difficulty = "Easy" | "Normal" | "Hard";
 
@@ -8,7 +8,10 @@ export type Difficulty = "Easy" | "Normal" | "Hard";
     providedIn: "root",
 })
 export class LevelService {
-    private levels: Level[] = [Level1, Level2, Level3, Level4, Level5, Level6, Level7, Level8, Level9, Level10]; // TODO Adauga nivel AICI
+    private levels: Level[] = [
+        Level1, Level2, Level3, Level4, Level5, Level6, Level7, Level8, Level9, Level10, 
+        Level11]; // TODO Adauga nivel AICI
+        
     private currentLevelIndex = 0;
     private score = 0;
     private difficulty: Difficulty = "Easy";
