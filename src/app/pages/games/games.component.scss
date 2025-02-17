@@ -1,7 +1,7 @@
 .balloon-pop-card {
   width: 200px; // Adjust size as needed
   height: 200px;
-  background: url("/assets/balloon-pop.webp") center/cover no-repeat;
+  background: url("../../../assets/balloon-pop.webp") center/cover no-repeat;
   border-radius: 15px;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   cursor: pointer;
