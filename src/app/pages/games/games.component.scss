@@ -16,77 +16,85 @@
 }
 
 .games-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: linear-gradient(to bottom, #a8e6cf, #dcedc1);
+}
+
+.menu-icon {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.games-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+/* Common styling for game cards (Dice Roll and Disabled) */
+.game-card {
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+/* Styling for the Dice Roll card with background image */
+.dice-roll-card {
+  background: url("../../../assets/dice-roll.webp") center/cover no-repeat;
+  color: white; /* Ensure text is readable over the image */
+}
+
+/* Menu Overlay */
+.menu-overlay {
+  position: absolute;
+  top: 50px; /* Adjust this based on your header height */
+  right: 20px;
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: right;
+  width: 150px;
+
+  .menu {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background: linear-gradient(to bottom, #a8e6cf, #dcedc1);
-  }
-  
-  .menu-icon {
-    font-size: 2rem;
-    cursor: pointer;
-  }
-  
-  .games-container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding: 20px;
-    flex-wrap: wrap;
-  }
-  
-  .game-card {
-    flex: 1;
-    min-width: 250px;
-    max-width: 300px;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.2s;
-    background: white;
-  
-    &:hover {
-      transform: scale(1.05);
-    }
-  
-    &.disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-  }
-  
-  .menu-overlay {
-    position: absolute;
-    top: 50px; /* Adjust this based on your header height */
-    right: 20px;
-    background: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    text-align: right;
-    width: 150px;
-  
-    .menu {
-      display: flex;
-      flex-direction: column;
-  
-      a {
-        display: block;
-        padding: 10px;
-        text-decoration: none;
-        color: black;
-        font-size: 1.2rem;
-        transition: background 0.2s;
-  
-        &:hover {
-          background: #eee;
-        }
+    flex-direction: column;
+
+    a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: black;
+      font-size: 1.2rem;
+      transition: background 0.2s;
+
+      &:hover {
+        background: #eee;
       }
     }
   }
-  
-  
+}

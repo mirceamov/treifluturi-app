@@ -12,8 +12,12 @@ import { BalloonPoppingComponent } from './games/balloon-popping/balloon-popping
 
 import { MatCardModule  } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatExpansionModule } from '@angular/material/expansion';
+
 import { DifficultySelectorComponent } from './games/balloon-popping/components/difficulty-selector/difficulty-selector.component';
 import { ClockComponent } from './games/balloon-popping/components/clock/clock.component';
+import { DiceRollComponent } from './games/dice-roll/dice-roll.component';
 
 
 @NgModule({
@@ -24,7 +28,8 @@ import { ClockComponent } from './games/balloon-popping/components/clock/clock.c
     AboutComponent,
     BalloonPoppingComponent,
     DifficultySelectorComponent,
-    ClockComponent,    
+    ClockComponent,
+    DiceRollComponent,    
   ],
   imports: [
     BrowserModule,
@@ -32,7 +37,9 @@ import { ClockComponent } from './games/balloon-popping/components/clock/clock.c
     BrowserAnimationsModule,
     NgbModule,
     MatCardModule,
-    MatIconModule 
+    MatIconModule,
+    MatListModule,       // 👈 Import MatList for History List
+    MatExpansionModule,  // 👈 Import MatExpansion for Stats Expandable Panel
   ],
   providers: [],
   bootstrap: [AppComponent]

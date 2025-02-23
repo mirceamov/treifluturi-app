@@ -1,35 +1,142 @@
+/* 🌈 Fun & Colorful Theme */
 .home-container {
-    text-align: center;
-    padding: 40px;
+  text-align: center;
+  padding: 40px;
+  background: linear-gradient(180deg, #ffdde1, #ee9ca7, #ff758c);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* 🦋 Logo */
+.logo {
+  width: 180px;
+  height: auto;
+  margin-bottom: 20px;
+  animation: floatUp 2s infinite alternate;
+}
+
+/* 🎉 Heading */
+h1 {
+  font-size: 2rem;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 📜 Introduction Text */
+.intro-text {
+  font-size: 1.5rem;
+  color: white;
+  max-width: 600px;
+  margin: 0 auto 20px;
+  font-weight: bold;
+}
+
+/* 🚀 Play Button */
+.play-button {
+  background: linear-gradient(to bottom, #ffcc00, #ff9900);
+  padding: 15px 30px;
+  border-radius: 15px;
+  font-size: 1.8rem;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   
-    .logo {
-      width: 150px;
-      height: auto;
-      margin-bottom: 20px;
-    }
-  
-    h1 {
-      font-size: 2.5rem;
-      color: #4a4a4a;
-    }
-  
-    p {
-      font-size: 1.2rem;
-      color: #666;
-      margin-bottom: 20px;
-    }
-  
-    .play-button {
-      background: linear-gradient(to bottom, #ffcc00, #ff9900);
-      padding: 15px 30px;
-      border-radius: 10px;
-      font-size: 1.5rem;
-      text-decoration: none;
-      color: white;
-      transition: transform 0.2s;
-      
-      &:hover {
-        transform: scale(1.1);
-      }
-    }
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
   }
+}
+
+/* 🎨 Fun Image Section */
+.fun-image {
+  margin-top: 30px;
+}
+.kids-fun-image {
+  width: 80%;
+  max-width: 500px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 🤔 Did You Know Section */
+.did-you-know {
+  background: white;
+  color: #ff758c;
+  padding: 15px;
+  border-radius: 15px;
+  margin-top: 30px;
+  max-width: 500px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.did-you-know h2 {
+  font-size: 1.8rem;
+}
+.did-you-know p {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+/* 🎲 Featured Games */
+.featured-games {
+  margin-top: 40px;
+}
+
+.featured-games h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.game-cards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+}
+
+.game-card {
+  background: white;
+  border-radius: 15px;
+  padding: 10px;
+  width: 150px;
+  height: 200px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  img {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ff758c;
+  }
+}
+
+/* 🏆 Animations */
+@keyframes floatUp {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-10px); }
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 500px) {
+  .game-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+}

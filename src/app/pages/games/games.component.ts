@@ -20,5 +20,8 @@ export class GamesComponent {
     if (game === 'balloon-pop') {
       this.router.navigate(['/games/balloon-pop']);
     }
+    if (game === 'dice-roll') {
+      this.router.navigate(['/games/dice-roll']);
+    }
   }
 }

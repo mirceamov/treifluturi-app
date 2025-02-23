@@ -1,6 +1,36 @@
 <div class="home-container">
-    <img src="assets/logo-3Butterflies.webp" alt="3Butterflies Logo" class="logo">
-    <h1>Welcome to 3Butterflies</h1>
-    <p>A fun world of games for kids! Click below to start playing.</p>
-    <a routerLink="/games" class="play-button">🎮 Play Games</a>
-</div>
+    <!-- 🌟 Logo Section -->
+    <img src="assets/butterflies.webp" alt="3Butterflies Logo" class="logo">
+    
+    <!-- 🎉 Welcome Message -->
+    <h1>Welcome to the playground 🦋</h1>
+    <p class="intro-text p-2">A magical world of fun games and adventures for kids! 🌈🎮</p>
+  
+    <!-- 🌟 Play Games Button -->
+    <a routerLink="/games" class="play-button">🚀 Start Playing!</a>
+  
+    <!-- 🦋 Fun Image Section -->
+    
+  
+    <!-- 🌟 Did You Know? Section -->
+    <div class="did-you-know">
+      <h2>Did You Know? 🤔</h2>
+      <p>{{ funFact }}</p>
+    </div>
+  
+    <!-- 🕹️ Featured Games Section -->
+    <div class="featured-games">
+      <h2>🎲 Featured Games</h2>
+      <div class="game-cards">
+        <div class="game-card" routerLink="/games/balloon-pop">
+          <img src="assets/balloon-pop.webp" alt="Balloon Pop">
+          <p class="p-2">🎈 Balloon Pop</p>
+        </div>
+        <div class="game-card" routerLink="/games/dice-roll">
+          <img src="assets/dice-roll.webp" alt="Dice Roll">
+          <p class="p-2">🎲 Dice Roll</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,307 @@
+/* 🎲 Full-Screen Layout */
+.full-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Full viewport height */
+    padding: 10px;
+    box-sizing: border-box;
+    width: 70%;
+    justify-self: center;
+    background: url("../../../assets/dice-roll-bg.webp"), #ffffff;
+    background-size: cover;
+  }
+  
+  /* 🕹️ Controls (Top Section) */
+.controls {
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    height: 10%;
+  }
+  
+  /* Back button */
+  .back-btn {
+    padding: 8px 16px;
+    font-size: 1em;
+    border: none;
+    border-radius: 8px;
+    background: #ff7675;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Centered controls (Toggle Dice & Sound) */
+  .center-controls {
+    display: flex;
+    gap: 10px;
+  }
+  
+  /* All control buttons */
+  .controls button {
+    padding: 8px 16px;
+    font-size: 1.5em; /* Bigger emojis */
+    border: none;
+    border-radius: 8px;
+    background: #74b9ff;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Hover and disabled states */
+  .controls button:hover {
+    background: #0984e3;
+  }
+  .controls button:disabled {
+    background: #b2bec3;
+    cursor: not-allowed;
+  }
+  
+
+
+
+  /* 🎲 Dice Rolling Area (Middle Section) */
+.dice-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 40%;
+    margin-top: 10%;
+    cursor: pointer;
+  }
+  
+  /* Each dice */
+  .dice {
+    width: 150px;
+    height: 150px;
+    margin: 20px;
+    perspective: 800px;
+  }
+  
+  /* Cube structure */
+  .cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease-out;
+  }
+  
+  /* 🎲 Dice rolling animations */
+  .rolling {
+    animation: diceShake 1s, diceRoll 2.5s 1.5s forwards;
+  }
+  
+  /* Dice Faces */
+  .face {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    line-height: 150px;
+    text-align: center;
+    font-size: 5em;
+    font-weight: bold;
+    font-family: "Comic Sans MS", "Fredoka One", cursive;
+    border: 1px solid #333;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  /* Colorful dice faces */
+  .face1 { background: #ff7675; color: white; transform: rotateY(0deg) translateZ(75px); }
+  .face2 { background: #74b9ff; color: white; transform: rotateY(90deg) translateZ(75px); }
+  .face3 { background: #55efc4; color: white; transform: rotateY(180deg) translateZ(75px); }
+  .face4 { background: #ffeaa7; color: black; transform: rotateY(-90deg) translateZ(75px); }
+  .face5 { background: #a29bfe; color: white; transform: rotateX(90deg) translateZ(75px); }
+  .face6 { background: #fab1a0; color: black; transform: rotateX(-90deg) translateZ(75px); }
+  
+  /* Glow effect when rolling stops */
+  .dice .face {
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  .dice .face.glow {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    transform: scale(1.1);
+  }
+  
+
+
+
+
+  /* 📜 History & 📊 Statistics Expandable Panel */
+.history-stats-container {
+    width: 100%;
+    margin-top: auto; /* Push to bottom */
+    transition: max-height 0.3s ease-in-out;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* 🗂 Content inside expandable panel */
+  .history-stats-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%; /* Ensure full width */
+  }
+  
+  /* 📊 Statistics (Left) */
+  .stats-panel {
+    flex: 1;
+    width: 50%;
+    max-width: 50%; /* Prevent resizing */
+    min-width: 50%;
+  }
+  
+  /* 📜 History (Right) */
+  .history-panel {
+    flex: 1;
+    width: 50%;
+    max-width: 50%; /* Prevent resizing */
+    min-width: 50%;
+  }
+  
+  /* 📜 History & 📊 Scrollable Lists */
+  .history-list, .stats-list {
+    max-height: 150px;
+    overflow-y: auto;
+  }
+  
+  /* 📱 Force Full Width on Mobile & Keep Side by Side */
+  @media (max-width: 768px) {
+    .full-container {
+        width: 100%;
+    }
+    .history-stats-container {
+      width: 100%;
+    }
+  
+    .history-stats-content {
+      flex-direction: row; /* Keep side by side */
+      justify-content: space-between;
+    }
+  
+    .stats-panel, .history-panel {
+      width: 50%;
+      max-width: 50%;
+    }
+
+    .dice {
+        width: 100px;
+        height: 100px;
+        margin: 10px;
+        perspective: 800px;
+      }
+
+      .face {
+        width: 100px;
+        height: 100px;
+        line-height: 100px;
+        font-size: 4em;
+      }
+      
+      /* Colorful dice faces */
+      .face1 { background: #ff7675; color: white; transform: rotateY(0deg) translateZ(50px); }
+      .face2 { background: #74b9ff; color: white; transform: rotateY(90deg) translateZ(50px); }
+      .face3 { background: #55efc4; color: white; transform: rotateY(180deg) translateZ(50px); }
+      .face4 { background: #ffeaa7; color: black; transform: rotateY(-90deg) translateZ(50px); }
+      .face5 { background: #a29bfe; color: white; transform: rotateX(90deg) translateZ(50px); }
+      .face6 { background: #fab1a0; color: black; transform: rotateX(-90deg) translateZ(50px); }
+
+      .dice-container {
+        min-height: 40%;
+    margin-top: 5%;
+      }
+  }
+  
+  
+  
+
+
+
+
+
+  
+ /* 🎲 Modal Popup */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Slightly transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  /* 🎛 Centered Modal Box */
+  .modal {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    width: 90%;
+    height: auto;
+    max-width: 400px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  /* 📝 Modal Text */
+  .modal p {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  /* 🔘 Modal Buttons */
+  .modal button {
+    width: 80%;
+    padding: 12px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin: 8px 0;
+  }
+  
+  .modal button:first-child {
+    background: #ff7675;
+    color: white;
+  }
+  
+  .modal button:first-child:hover {
+    background: #e74c3c;
+  }
+  
+  .modal button:last-child {
+    background: #b2bec3;
+    color: black;
+  }
+  
+  .modal button:last-child:hover {
+    background: #95a5a6;
+  }
+  
+  
+  

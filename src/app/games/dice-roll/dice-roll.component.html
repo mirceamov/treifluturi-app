@@ -1,0 +1,81 @@
+<div class="full-container">
+  
+  <!-- 🕹️ Controls (Top) -->
+  <div class="controls">
+    <button class="back-btn" (click)="goBack()"><i class="bi bi-arrow-left"></i></button>
+  
+    <div class="center-controls">
+      <button (click)="confirmToggleDice()">
+        {{ numarDeZaruri === 2 ? '🎲🎲' : '🎲' }}
+      </button>
+      <button (click)="toggleSound()">
+        {{ soundEnabled ? '🎵' : '🔇' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- 🎲 Dice Rolling Area (Middle) -->
+  <div class="dice-container" (click)="rollDice()">
+    <div *ngFor="let d of dice; let i = index" class="dice">
+      <div class="cube" 
+           [ngClass]="{'rolling': isRolling}"
+           (animationend)="onAnimationEnd($event, i)"
+           [style.transform]="!isRolling ? d.transform : ''">
+        <div class="face face1">{{ (isRolling || d.result === '?') ? '🎲' : '1' }}</div>
+        <div class="face face2">{{ (isRolling || d.result === '?') ? '🎲' : '2' }}</div>
+        <div class="face face3">{{ (isRolling || d.result === '?') ? '🎲' : '3' }}</div>
+        <div class="face face4">{{ (isRolling || d.result === '?') ? '🎲' : '4' }}</div>
+        <div class="face face5">{{ (isRolling || d.result === '?') ? '🎲' : '5' }}</div>
+        <div class="face face6">{{ (isRolling || d.result === '?') ? '🎲' : '6' }}</div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- 📜 History & 📊 Statistics Expandable Panel (Full Width) -->
+<mat-expansion-panel (opened)="expanded = true" (closed)="expanded = false" class="history-stats-container">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{ expanded ? 'History & Statistics' : '📜 & 📊' }}
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <!-- 📜 History & 📊 Side by Side Layout -->
+  <div class="history-stats-content">
+    <!-- 📊 Statistics Panel (Left) -->
+    <mat-card class="stats-panel">
+      <mat-card-title class="p-2">Stats 📊</mat-card-title>
+      <mat-list dense class="stats-list">
+        <mat-list-item *ngFor="let key of sortedStatistics().slice(0, 5)">
+          {{ numarDeZaruri === 1 ? 'Rolled ' + key.key : 'Rolled sum ' + key.key }}: {{ key.value }}
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+
+    <!-- 📜 History Panel (Right) -->
+    <mat-card class="history-panel">
+      <mat-card-title class="p-2">History 📜</mat-card-title>
+      <mat-list dense class="history-list">
+        <mat-list-item *ngFor="let roll of rollHistory.slice(0, 5)">
+          <span class="history-icon">🎲</span> {{ roll.join(' + ') }}
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+  </div>
+</mat-expansion-panel>
+
+
+  
+
+
+  <!-- 🛑 Confirmation Modal -->
+  <div *ngIf="showModal" class="modal-overlay">
+    <div class="modal">
+      <p>Are you sure you want to reset history and switch dice?</p>
+      <button (click)="toggleDice()">Yes, Toggle</button>
+      <button (click)="cancelToggle()">Cancel</button>
+    </div>
+  </div>
+
+</div>
